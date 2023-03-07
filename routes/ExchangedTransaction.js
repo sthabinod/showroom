@@ -1,12 +1,13 @@
 const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
-const { Vaccination } = require("../models");
+const { ExchangedTransaction } = require("../models");
 const { validateToken } = require("../middleware/AuthMiddleware");
 
-router.route("/").get(validateToken,async(req,res)=>{
-    const showVaccination = await Vaccination.findAll();
-    res.json(showVaccination);
+
+router.route("/").get(validateToken, async(req, res) => {
+    showExchangedTransaction = await ExchangedTransaction.findAll();
+    res.json(showExchangedTransaction);
 });
 
 // async and await waiting for the data to be inserting and doing other things
@@ -14,10 +15,9 @@ router.route("/").post((req, res) => {
     // using sequelize to post data
     // accessing data
     // body has data in json
-    const vaccination = req.body;
-    console.log(vaccination);
-    Vaccination.create(vaccination);
-    res.json(vaccination);
+    const exchangedTransaction = req.body;
+    ExchangedTransaction.create(exchangedTransaction);
+    res.json(exchangedTransaction);
 });
 
 module.exports = router;

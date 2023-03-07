@@ -12,28 +12,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        registered_date: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
         phone_number: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        profile_image: {
+            type: DataTypes.BLOB,
+            allowNull: true,
+        },
     });
-    Customer.associate = (models) => {
-        Customer.hasMany(models.Appointment, {
-            onDelete: "cascade",
-        });
-       
-        Customer.hasMany(models.Rating, {
-            onDelete: "cascade",
-        });
-        
-        Customer.hasMany(models.Order, {
-            onDelete: "cascade",
-        });
-        Customer.hasMany(models.Pet, {
-            onDelete: "cascade",
-        });
-        
-    };
 
     return Customer;
 };

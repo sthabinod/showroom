@@ -14,7 +14,6 @@ router.get("/", async(req, res) => {
 
 router.route("/login_user").post(async(req, res) => {
     const { username, password } = req.body;
-    console.log(username);
     const user = await User.findOne({ where: { username: username } });
     if (!user) {
         res.json({ error: "User not found" });
@@ -48,28 +47,22 @@ router.route("/").post(async(req, res) => {
 
     if (user.email !== "" && user.password !== "" && user.username !== "") {
         if (!checkUser) {
-            const userObject = await User.create(user);
-            console.log(userObject);
+            const userObject = User.create(user);
             res.json({
-                user:user,
-                id:userObject.id,
-                success: "User created successfully....",
+                success: "User created successfully",
             });
-            
         } else {
+            console.log("I m");
             res.json({ error: "User already found" });
         }
-
-        
     } else {
         res.json({ error: "Empty Fields" });
     }
-    
-    
 });
 
+router.route("/update").get(validateToken, (req, res) => {
 // async and await waiting for the data to be inserting and doing other things
-router.route("/update").post(validateToken, async(req, res) => {
+
     // using sequelize to post data
     // accessing data
     // body has data in json

@@ -2,31 +2,36 @@
 
 module.exports = (sequelize, DataTypes) => {
     // // Table name as Blog in double quote and Blog as variable in front
-    const Employee = sequelize.define("Employee", {
-        fullName: {
+    const VehicleParts = sequelize.define("VehicleParts", {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        address: {
+        vehicle_type: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        qualification: {
+        manufacturer: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-
-        phoneNumber: {
-            type: DataTypes.STRING,
+        price: {
+            type: DataTypes.DECIMAL,
             allowNull: false,
         },
+        image: {
+            type: DataTypes.BLOB,
+            allowNull: false,
+        },
+        quantity: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        }
     });
-
-    Employee.associate = (models) => {
-        Employee.hasMany(models.Product, {
+    VehicleParts.associate = (models) => {
+        VehicleParts.hasMany(models.PartsOrder, {
             onDelete: "cascade",
         });
     };
-
-    return Employee;
+    return VehicleParts;
 };

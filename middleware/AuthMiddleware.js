@@ -10,6 +10,7 @@ const validateToken = (req, res, next) => {
     // passing token from frontend to backend using Header
     // must be same as post request made in frontend
     const accessToken = req.header("accessTokenFromFrontend");
+    console.log(accessToken);
     if (!accessToken) return res.json({ error: "User not logged in" });
     try {
         // accessToken and important secret

@@ -2,25 +2,26 @@
 
 module.exports = (sequelize, DataTypes) => {
     // // Table name as Blog in double quote and Blog as variable in front
-    const Vaccination = sequelize.define("Vaccination", {
-        name: {
+    const ExchangedTransaction = sequelize.define("ExchangedTransaction", {
+        title: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-
         description: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-       
+        cost_price: {
+            type: DataTypes.DECIMAL,
+            allowNull: false,
+        },
     });
-    Vaccination.associate = (models) => {
-        Vaccination.hasMany(models.Appointment, {
+
+    ExchangedTransaction.associate = (models) => {
+        ExchangedTransaction.hasOne(models.ExchangedVehicle, {
             onDelete: "cascade",
         });
-        
-      
     };
 
-    return Vaccination;
+    return ExchangedTransaction;
 };

@@ -11,38 +11,36 @@ const db = require("./models");
 app.use(cors());
 
 // Routers
+
 const customerRouter = require("./routes/Customer");
 app.use("/customer", customerRouter);
 
-const vaccinationRouter = require("./routes/Vaccination");
-app.use("/vaccination", vaccinationRouter);
+const exchangedTransactionRouter = require("./routes/ExchangedTransaction");
+app.use("/exchanged-transaction", exchangedTransactionRouter);
 
-const petRouter = require("./routes/Pet");
-app.use("/pet", petRouter);
+const categoryRouter = require("./routes/Categories");
+app.use("/category", categoryRouter);
 
-const petCatRouter = require("./routes/PetCategory");
-app.use("/pet-cat", petCatRouter);
+const vehicleParts = require("./routes/VehicleParts");
+app.use("/vehicle-parts", vehicleParts);
 
-const productRouter = require("./routes/Product");
-app.use("/product", productRouter);
-
-const appointmentRouter = require("./routes/Appointment");
-app.use("/appointment",appointmentRouter);
+const vehicleRouter = require("./routes/Vehicle");
+app.use("/vehicle", vehicleRouter);
 
 const notificationRouter = require("./routes/Notification");
 app.use("/notification", notificationRouter);
 
-const doctorRouter = require("./routes/Doctor");
-app.use("/doctor", doctorRouter);
+const partsOrder = require("./routes/PartsOrder");
+app.use("/parts_order", partsOrder);
 
-// const feedbackRouter = require("./routes/Pet");
-// app.use("/feedback", feedbackRouter);
+const vehicleOrder = require("./routes/VehicleOrder");
+app.use("/vehicle-order", vehicleOrder);
 
 const companyRouter = require("./routes/Company");
 app.use("/company", companyRouter);
 
-const orderRouter = require("./routes/Order");
-app.use("/order", orderRouter);
+const exchangedVehicleouter = require("./routes/ExchangedVehicle");
+app.use("/exchangedVechicle ", exchangedVehicleouter);
 
 const userRouter = require("./routes/User");
 app.use("/users", userRouter);

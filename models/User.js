@@ -15,19 +15,23 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        user_type: {
-            type: DataTypes.STRING,
+        isCompany: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: undefined,
         },
     });
 
     User.associate = (models) => {
+        User.hasMany(models.VehicleOrder, {
+            onDelete: "cascade",
+        });
+    
+        User.hasMany(models.PartsOrder, {
+            onDelete: "cascade",
+        });
+
+     
         User.hasOne(models.Customer, {
-            onDelete: "cascade",
-        });
-        User.hasOne(models.Doctor, {
-            onDelete: "cascade",
-        });
-        User.hasOne(models.Employee, {
             onDelete: "cascade",
         });
     };

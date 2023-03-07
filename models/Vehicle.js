@@ -2,7 +2,7 @@
 
 module.exports = (sequelize, DataTypes) => {
     // // Table name as Blog in double quote and Blog as variable in front
-    const Product = sequelize.define("Product", {
+    const Vehicle = sequelize.define("Vehicle", {
         title: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -12,14 +12,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        price: {
+        cost_price: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+
+        selling_price: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
 
         image: {
-            type: DataTypes.BLOB("long"),
-            allowNull: true,
+            type: DataTypes.BLOB,
+            allowNull: false,
         },
 
         quantity: {
@@ -28,12 +33,15 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
 
-    Product.associate = (models) => {
-        Product.hasMany(models.Order, {
+    Vehicle.associate = (models) => {
+        Vehicle.hasMany(models.VehicleOrder, {
+            onDelete: "cascade",
+        });
+     
+        Vehicle.hasOne(models.ExchangedVehicle, {
             onDelete: "cascade",
         });
     };
-   
 
-    return Product;
+    return Vehicle;
 };

@@ -53,7 +53,7 @@ const adminBro = new AdminBro({
     loginPath: "/admin/login",
     databases: [db],
     branding: {
-        companyName: "Vetenary",
+        companyName: "Dharan Showroom System ",
         softwareBrothers: true,
     },
 });

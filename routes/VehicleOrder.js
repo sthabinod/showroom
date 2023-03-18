@@ -5,13 +5,18 @@ const { VehicleOrder,Customer } = require("../models");
 const Sequelize = require("sequelize");
 const { validateToken } = require("../middleware/AuthMiddleware");
 
+router.route("/by-user").get(validateToken,async(req,res)=>{
+    const userId = req.user.id;
+    getRelatedOrder = await VehicleOrder.findAll({ where: { UserId: userId } });
+    res.json(getRelatedOrder);
+});
 
 
 router.route("/").get(validateToken,async(req,res)=>{
     const userId = req.user.id
 
     const orderObject = await VehicleOrder.findAll({where:{
-        UserId:cuserId}})
+        UserId:userId}})
 
     if (!orderObject)
     {
@@ -36,11 +41,12 @@ router.route("/").post(validateToken,async(req,res)=>{
     // const customerObject = await Customer.findOne({ where: { UserId: userId } });
     const orderToAdd = await VehicleOrder.create({
         orderId: order.orderId,
+        isBooked:order.isBooked,
         date:order.date,
-        VehicleId: order.VehicleId,
-        UserId: order.userId,
         paymentStatus:order.paymentStatus,
-        isBooked:order.isBooked });
+        VehicleId: order.VehicleId,
+        UserId: userId
+        });
     res.json({
         success: "Order created successfully",data:order
     });

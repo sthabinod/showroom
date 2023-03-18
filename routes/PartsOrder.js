@@ -5,9 +5,9 @@ const router = express.Router();
 const { validateToken } = require("../middleware/AuthMiddleware");
 const { Product, Customer, PartsOrder } = require("../models");
 
-router.get("/:id", async(req, res) => {
-    const id = req.params.id;
-    getRelatedOrder = await Order.findAll({ where: { UserId: id } });
+router.route("/").get(validateToken,async(req,res)=>{
+    const userId = req.user.id;
+    getRelatedOrder = await PartsOrder.findAll({ where: { UserId: userId } });
     res.json(getRelatedOrder);
 });
 

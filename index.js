@@ -15,8 +15,8 @@ app.use(cors());
 const customerRouter = require("./routes/Customer");
 app.use("/customer", customerRouter);
 
-const exchangedTransactionRouter = require("./routes/ExchangedTransaction");
-app.use("/exchanged-transaction", exchangedTransactionRouter);
+// const exchangedTransactionRouter = require("./routes/ExchangedTransaction");
+// app.use("/exchanged-transaction", exchangedTransactionRouter);
 
 const categoryRouter = require("./routes/Categories");
 app.use("/category", categoryRouter);
@@ -40,7 +40,7 @@ const companyRouter = require("./routes/Company");
 app.use("/company", companyRouter);
 
 const exchangedVehicleouter = require("./routes/ExchangedVehicle");
-app.use("/exchangedVechicle ", exchangedVehicleouter);
+app.use("/exchangedVechicle", exchangedVehicleouter);
 
 const userRouter = require("./routes/User");
 app.use("/users", userRouter);

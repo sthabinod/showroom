@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        isCompany: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: undefined,
+        user_type: {
+            type: DataTypes.STRING,
+            allowNull:false
         },
     });
 

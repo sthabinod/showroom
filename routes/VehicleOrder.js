@@ -52,4 +52,28 @@ router.route("/").post(validateToken,async(req,res)=>{
     });
 
 });
+
+
+router.route("/update").get(validateToken, (req, res) => {
+    // async and await waiting for the data to be inserting and doing other things
+    
+        // using sequelize to post data
+        // accessing data
+        // body has data in json
+        const id = req.query['id'];
+        console.log(id);
+        const vehicle_order = req.body;
+        const updated = VehicleOrder.update(vehicle_order, { where: { id: id } });
+        res.json({status:"SUCCESS" ,message: "Vehicle order created successfully",data:vehicle_order });
+    });
+
+
+router.route("/delete").get(validateToken, (req, res) => {
+            const id = req.query['id'];
+            console.log(id);    
+        
+            const updated = VehicleOrder.destroy({ where: { id: id } });
+            res.json({status:"SUCCESS" ,message: "Vehicle Order deleted successfully" });
+        });
+
 module.exports = router;

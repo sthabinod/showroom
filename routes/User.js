@@ -7,9 +7,9 @@ const bcrypt = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 const { validateToken } = require("../middleware/AuthMiddleware");
 
-router.get("/", async(req, res) => {
-    showUser = await User.findAll();
-    res.json(showUser);
+router.route("/").get(validateToken, async(req, res) => {
+    const users = await User.findAll();
+    res.json(users);
 });
 
 router.route("/login_user").post(async(req, res) => {
@@ -76,8 +76,46 @@ router.route("/update").get(validateToken, (req, res) => {
     // res.json(hash);
     const userId = req.user.id;
     const updated = User.update(updateUser, { where: { id: userId } });
-    res.json(userId);
+    res.json({status:"SUCCESS" ,message: "User updated successfully" });
 });
+
+
+router.route("/update").get(validateToken, (req, res) => {
+    // async and await waiting for the data to be inserting and doing other things
+    
+        // using sequelize to post data
+        // accessing data
+        // body has data in json
+        const { username, password } = req.body;
+        const updateUser = req.body;
+        // const hash = user.password
+        // User.create({
+        //     username: user.username,
+        //     password: hash
+        // })
+        // res.json(hash);
+        const userId = req.user.id;
+        const updated = User.update(updateUser, { where: { id: userId } });
+        res.json({status:"SUCCESS" ,message: "User updated successfully" });
+    });
+
+    router.route("/admin/update").get(validateToken, (req, res) => {
+            const { username, password } = req.body;
+            const updateUser = req.body;
+            const id = req.query['id'];
+            console.log(id);
+            const updated = User.update(updateUser, { where: { id: id } });
+            res.json({status:"SUCCESS" ,message: "User updated successfully" });
+        });
+    
+
+        router.route("/delete").get(validateToken, (req, res) => {
+            const id = req.query['id'];
+            console.log(id);
+        
+            const updated = User.destroy({ where: { id: id } });
+            res.json({status:"SUCCESS" ,message: "User deleted successfully" });
+        });
 
 router.route("/auth").get(validateToken, (req, res) => {
     // using sequelize to post data

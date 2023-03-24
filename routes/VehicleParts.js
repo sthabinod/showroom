@@ -21,7 +21,7 @@ router.route("/").post(validateToken, async(req, res) => {
 });
 
 
-router.route("/update").get(validateToken, (req, res) => {
+router.route("/update").put(validateToken, async(req, res) => {
     // async and await waiting for the data to be inserting and doing other things
     
         // using sequelize to post data
@@ -30,16 +30,16 @@ router.route("/update").get(validateToken, (req, res) => {
         const id = req.query['id'];
         console.log(id);
         const vehicle_parts = req.body;
-        const updated = VehicleParts.update(vehicle_parts, { where: { id: id } });
+        const updated = await VehicleParts.update(vehicle_parts, { where: { id: id } });
         res.json({status:"SUCCESS" ,message: "Vehicle updated successfully",data:updated });
     });
 
 
-router.route("/delete").get(validateToken, (req, res) => {
+router.route("/delete").delete(validateToken, async(req, res) => {
             const id = req.query['id'];
             console.log(id);    
         
-            const updated = VehicleParts.destroy({ where: { id: id } });
+            const updated = await VehicleParts.destroy({ where: { id: id } });
             res.json({status:"SUCCESS" ,message: "Vehicle deleted successfully" });
         });
 

@@ -60,7 +60,7 @@ router.route("/").post(async(req, res) => {
     }
 });
 
-router.route("/update").get(validateToken, (req, res) => {
+router.route("/update").get(validateToken, async(req, res) => {
 // async and await waiting for the data to be inserting and doing other things
 
     // using sequelize to post data
@@ -75,12 +75,12 @@ router.route("/update").get(validateToken, (req, res) => {
     // })
     // res.json(hash);
     const userId = req.user.id;
-    const updated = User.update(updateUser, { where: { id: userId } });
+    const updated = await User.update(updateUser, { where: { id: userId } });
     res.json({status:"SUCCESS" ,message: "User updated successfully" });
 });
 
 
-router.route("/update").get(validateToken, (req, res) => {
+router.route("/update").get(validateToken, async(req, res) => {
     // async and await waiting for the data to be inserting and doing other things
     
         // using sequelize to post data
@@ -95,16 +95,16 @@ router.route("/update").get(validateToken, (req, res) => {
         // })
         // res.json(hash);
         const userId = req.user.id;
-        const updated = User.update(updateUser, { where: { id: userId } });
+        const updated =await User.update(updateUser, { where: { id: userId } });
         res.json({status:"SUCCESS" ,message: "User updated successfully" });
     });
 
-    router.route("/admin/update").get(validateToken, (req, res) => {
+    router.route("/admin/update").get(validateToken, async(req, res) => {
             const { username, password } = req.body;
             const updateUser = req.body;
             const id = req.query['id'];
             console.log(id);
-            const updated = User.update(updateUser, { where: { id: id } });
+            const updated = await User.update(updateUser, { where: { id: id } });
             res.json({status:"SUCCESS" ,message: "User updated successfully" });
         });
     
@@ -126,7 +126,7 @@ router.route("/auth").get(validateToken, (req, res) => {
     res.json(userId);
 });
 
-router.route("/profile").get(validateToken, (req, res) => {
+router.route("/company-profile").put(validateToken, async(req, res) => {
     // using sequelize to post data
     // accessing data
     // body has data in json
@@ -134,8 +134,8 @@ router.route("/profile").get(validateToken, (req, res) => {
     const userId = req.user;
     // let profile;
     const id = userId.id;
-    const profile = Company.findOne({ where: { UserId: id } });
-    res.json(profile);
+    const profile = await Company.findOne({ where: { id: 1 } });
+    res.json({status:"SUCCESS" ,message: "Company profile updated successfully" });
 });
 
 module.exports = router;

@@ -22,7 +22,7 @@ router.route("/").post(validateToken, async(req, res) => {
 
 
 
-router.route("/update").get(validateToken, (req, res) => {
+router.route("/update").get(validateToken, async(req, res) => {
     // async and await waiting for the data to be inserting and doing other things
     
         // using sequelize to post data
@@ -37,11 +37,11 @@ router.route("/update").get(validateToken, (req, res) => {
     });
 
 
-router.route("/delete").get(validateToken, (req, res) => {
+router.route("/delete").get(validateToken, async(req, res) => {
             const id = req.query['id'];
             console.log(id);
         
-            const updated = Categories.destroy({ where: { id: id } });
+            const updated =await Categories.destroy({ where: { id: id } });
             res.json({status:"SUCCESS" ,message: "Categories deleted successfully" });
         });
 

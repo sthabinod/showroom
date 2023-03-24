@@ -2,7 +2,7 @@ const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
 
-const { Ve  hicle } = require("../models");
+const { Vehicle } = require("../models");
 const { validateToken } = require("../middleware/AuthMiddleware");
 
 router.route("/").get(validateToken, async(req, res) => {
@@ -31,7 +31,7 @@ router.route("/").post(validateToken, async(req, res) => {
 
 
 
-router.route("/update").get(validateToken, (req, res) => {
+router.route("/update").get(validateToken, async(req, res) => {
     // async and await waiting for the data to be inserting and doing other things
     
         // using sequelize to post data
@@ -41,17 +41,17 @@ router.route("/update").get(validateToken, (req, res) => {
         console.log(id);
         const vehicle = req.body;
         const userId = req.user.id;
-        const updated = Vehicle.update(vehicle, { where: { id: id } });
+        const updated = await Vehicle.update(vehicle, { where: { id: id } });
         res.json({status:"SUCCESS" ,message: "Vehicle updated successfully",data:vehicle });
     });
 
 
-router.route("/delete").get(validateToken, (req, res) => {
+router.route("/delete").get(validateToken, async(req, res) => {
             const id = req.query['id'];
             console.log(id);
         
             const userId = req.user.id;
-            const updated = Vehicle.destroy({ where: { id: id } });
+            const updated = await Vehicle.destroy({ where: { id: id } });
             res.json({status:"SUCCESS" ,message: "Vehicle deleted successfully" });
         });
 

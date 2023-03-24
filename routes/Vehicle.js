@@ -1,7 +1,7 @@
 const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
-
+const formidable = require("formidable");
 const { Vehicle } = require("../models");
 const { validateToken } = require("../middleware/AuthMiddleware");
 
@@ -20,6 +20,8 @@ router.route("/user").get(validateToken, async(req, res) => {
 
 
 router.route("/").post(validateToken, async(req, res) => {
+    const form = formidable.IncomingForm();
+    console.log(form);
     // using sequelize to post data
     // accessing data
     // body has data in json
@@ -31,7 +33,7 @@ router.route("/").post(validateToken, async(req, res) => {
 
 
 
-router.route("/update").get(validateToken, async(req, res) => {
+router.route("/update").put(validateToken, async(req, res) => {
     // async and await waiting for the data to be inserting and doing other things
     
         // using sequelize to post data
@@ -46,7 +48,7 @@ router.route("/update").get(validateToken, async(req, res) => {
     });
 
 
-router.route("/delete").get(validateToken, async(req, res) => {
+router.route("/delete").delete(validateToken, async(req, res) => {
             const id = req.query['id'];
             console.log(id);
         

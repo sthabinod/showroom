@@ -60,7 +60,7 @@ router.route("/").post(async(req, res) => {
     }
 });
 
-router.route("/update").get(validateToken, async(req, res) => {
+router.route("/update").put(validateToken, async(req, res) => {
 // async and await waiting for the data to be inserting and doing other things
 
     // using sequelize to post data
@@ -80,7 +80,7 @@ router.route("/update").get(validateToken, async(req, res) => {
 });
 
 
-router.route("/update").get(validateToken, async(req, res) => {
+router.route("/update").put(validateToken, async(req, res) => {
     // async and await waiting for the data to be inserting and doing other things
     
         // using sequelize to post data
@@ -131,10 +131,8 @@ router.route("/company-profile").put(validateToken, async(req, res) => {
     // accessing data
     // body has data in json
     // const user = User.findOne({ where: { username: req.user.username } });
-    const userId = req.user;
-    // let profile;
-    const id = userId.id;
-    const profile = await Company.findOne({ where: { id: 1 } });
+   
+    const profile = await Company.update(req.body, { where: { id: 1 } });
     res.json({status:"SUCCESS" ,message: "Company profile updated successfully" });
 });
 

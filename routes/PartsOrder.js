@@ -74,7 +74,7 @@ router.route("/admin").post(validateToken, async(req, res) => {
 });
 
 
-router.route("/update").get(validateToken, (req, res) => {
+router.route("/update").put(validateToken, async(req, res) => {
     // async and await waiting for the data to be inserting and doing other things
     
         // using sequelize to post data
@@ -83,16 +83,16 @@ router.route("/update").get(validateToken, (req, res) => {
         const id = req.query['id'];
         console.log(id);
         const part_order = req.body;
-        const updated = PartsOrder.update(part_order, { where: { id: id } });
+        const updated =await PartsOrder.update(part_order, { where: { id: id } });
         res.json({status:"SUCCESS" ,message: "Parts Order udpated successfully",data:part_order });
     });
 
 
-router.route("/delete").get(validateToken, async(req, res) => {
+router.route("/delete").delete(validateToken, async(req, res) => {
             const id = req.query['id'];
             console.log(id);    
         
-            const updated = PartsOrder.destroy({ where: { id: id } });
+            const updated = await PartsOrder.destroy({ where: { id: id } });
             res.json({status:"SUCCESS" ,message: "Vehicle Order deleted successfully" });
         });
 module.exports = router;

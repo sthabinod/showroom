@@ -10,11 +10,7 @@ router.route("/").get(validateToken, async(req, res) => {
     res.json(vehicleParts);
 });
 
-// async and await waiting for the data to be inserting and doing other things
 router.route("/").post(validateToken, async(req, res) => {
-    // using sequelize to post data
-    // accessing data
-    // body has data in json
     const vehicleParts = req.body;
     await VehicleParts.create(vehicleParts);
     res.json(vehicleParts);
@@ -22,11 +18,6 @@ router.route("/").post(validateToken, async(req, res) => {
 
 
 router.route("/update").put(validateToken, async(req, res) => {
-    // async and await waiting for the data to be inserting and doing other things
-    
-        // using sequelize to post data
-        // accessing data
-        // body has data in json
         const id = req.query['id'];
         console.log(id);
         const vehicle_parts = req.body;

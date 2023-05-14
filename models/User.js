@@ -38,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
         User.hasMany(models.ExchangedVehicle, {
             onDelete: "cascade",
         });
+        User.hasMany(models.Contact, {
+            onDelete: "cascade",
+        });
     };
     return User;
 };

@@ -18,11 +18,7 @@ router.route("/admin").get(validateToken, async(req, res) => {
     res.json(exchangedVechicle);
 });
 
-// async and await waiting for the data to be inserting and doing other things 
 router.route("/").post(validateToken, async(req, res) => {
-        // using sequelize to post data
-        // accessing data
-        // body has data in json
         userId = req.user.id;
         console.log(userId);
         const exVehicle = req.body;
@@ -38,21 +34,16 @@ router.route("/").post(validateToken, async(req, res) => {
 
     });
 
-    router.route("/update").get(validateToken, (req, res) => {
-        // async and await waiting for the data to be inserting and doing other things
-        
-            // using sequelize to post data
-            // accessing data
-            // body has data in json
+    router.route("/update").put(validateToken, async(req, res) => {
             const id = req.query['id'];
             console.log(id);
             const vehicle = req.body;
-            const updated = ExchangedVehicle.update(vehicle, { where: { id: id } });
+            const updated = await ExchangedVehicle.update(vehicle, { where: { id: id } });
             res.json({status:"SUCCESS" ,message: "Exchanged Vehicle updated successfully",data:vehicle });
         });
     
     
-    router.route("/delete").get(validateToken, (req, res) => {
+    router.route("/delete").delete(validateToken, (req, res) => {
                 const id = req.query['id'];
                 console.log(id);
             

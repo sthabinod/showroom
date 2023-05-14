@@ -31,14 +31,10 @@ router.route("/").get(validateToken,async(req,res)=>{
 
 
 router.route("/").post(validateToken,async(req,res)=>{
-    // using sequelize to post data
-    // accessing data
-    // body has data in json
     const order = req.body;
     console.log(order);
     const userId = req.user.id
     console.log(userId);
-    // const customerObject = await Customer.findOne({ where: { UserId: userId } });
     const orderToAdd = await VehicleOrder.create({
         orderId: order.orderId,
         isBooked:order.isBooked,
@@ -54,25 +50,19 @@ router.route("/").post(validateToken,async(req,res)=>{
 });
 
 
-router.route("/update").get(validateToken, (req, res) => {
-    // async and await waiting for the data to be inserting and doing other things
-    
-        // using sequelize to post data
-        // accessing data
-        // body has data in json
+router.route("/update").put(validateToken, async(req, res) => {
         const id = req.query['id'];
         console.log(id);
         const vehicle_order = req.body;
-        const updated = VehicleOrder.update(vehicle_order, { where: { id: id } });
+        const updated = await VehicleOrder.update(vehicle_order, { where: { id: id } });
         res.json({status:"SUCCESS" ,message: "Vehicle order created successfully",data:vehicle_order });
     });
 
 
-router.route("/delete").get(validateToken, (req, res) => {
+router.route("/delete").delete(validateToken, async(req, res) => {
             const id = req.query['id'];
             console.log(id);    
-        
-            const updated = VehicleOrder.destroy({ where: { id: id } });
+            const updated = await VehicleOrder.destroy({ where: { id: id } });
             res.json({status:"SUCCESS" ,message: "Vehicle Order deleted successfully" });
         });
 

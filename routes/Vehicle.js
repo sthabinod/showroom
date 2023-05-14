@@ -22,9 +22,6 @@ router.route("/user").get(validateToken, async(req, res) => {
 router.route("/").post(validateToken, async(req, res) => {
     const form = formidable.IncomingForm();
     console.log(form);
-    // using sequelize to post data
-    // accessing data
-    // body has data in json
     const vehicle = req.body;
     console.log(vehicle);
     await Vehicle.create(vehicle);
@@ -34,11 +31,6 @@ router.route("/").post(validateToken, async(req, res) => {
 
 
 router.route("/update").put(validateToken, async(req, res) => {
-    // async and await waiting for the data to be inserting and doing other things
-    
-        // using sequelize to post data
-        // accessing data
-        // body has data in json
         const id = req.query['id'];
         console.log(id);
         const vehicle = req.body;

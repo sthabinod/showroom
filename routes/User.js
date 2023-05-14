@@ -1,9 +1,8 @@
 const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
-const { User, Company } = require("../models");
+const { User, Company,Contact,Vehicle,VehicleOrder,User,VehicleParts,PartsOrder } = require("../models");
 const bcrypt = require("bcrypt");
-// generate token using sign
 const { sign } = require("jsonwebtoken");
 const { validateToken } = require("../middleware/AuthMiddleware");
 
@@ -11,6 +10,50 @@ router.route("/").get(validateToken, async(req, res) => {
     const users = await User.findAll();
     res.json(users);
 });
+
+
+
+
+router.route("/contact").get(validateToken, async (req, res) => {
+    const userId = req.user.id
+    showContact =  await Contact.findAll({
+        where: {
+          UserId:userId,
+        },
+      });
+    res.json(showContact);
+});
+
+router.route("/dashboard").get(validateToken, async (req, res) => {
+    count_user =  await User.count();
+    count_vehicle =  await Vehicle.count();
+    count_vehicle_order =  await VehicleOrder.count();
+    count_parts =  await VehicleParts.count();
+    count_parts_order =  await PartsOrder.count();
+
+    res.json({"user":count_user,"vehicle":count_vehicle,"vehicle_order":count_vehicle_order,"parts":count_parts,"parts_order":parts_order});
+});
+
+
+
+router.route("/contact").post(validateToken, async (req, res) => {
+    const contact = req.body;
+    const userId = req.user.id
+
+    if (contact.email !== "" && contact.name !== "" && contact.address !== "" && contact.phone_number !== "") {
+            const contactObject = await Contact.create({email:contact.email,phone_number:contact.phone_number,address:contact.address,full_name:contact.full_name,UserId:userId});
+            res.json({
+                contact:contact,
+                success: "Your contact created successfully....",
+            });
+            
+    } else {
+        res.json({ error: "Fields required!" });
+    }
+    
+    
+});
+
 
 router.route("/login_user").post(async(req, res) => {
     const { username, password } = req.body;
@@ -24,9 +67,6 @@ router.route("/login_user").post(async(req, res) => {
         res.json({ error: "No correct password" });
         return;
     }
-
-    // json web token is going to hash the username and id
-    // third parameter is secret word to protect token
     const accessToken = sign({
             username: user.username,
             id: user.id,
@@ -36,8 +76,6 @@ router.route("/login_user").post(async(req, res) => {
         },
         "important"
     );
-
-    // after getting this accessToken it is stored in sessionStorage and use as part of header when request is made
     res.json(accessToken);
 });
 
@@ -61,19 +99,8 @@ router.route("/").post(async(req, res) => {
 });
 
 router.route("/update").put(validateToken, async(req, res) => {
-// async and await waiting for the data to be inserting and doing other things
-
-    // using sequelize to post data
-    // accessing data
-    // body has data in json
     const { username, password } = req.body;
     const updateUser = req.body;
-    // const hash = user.password
-    // User.create({
-    //     username: user.username,
-    //     password: hash
-    // })
-    // res.json(hash);
     const userId = req.user.id;
     const updated = await User.update(updateUser, { where: { id: userId } });
     res.json({status:"SUCCESS" ,message: "User updated successfully" });
@@ -81,19 +108,8 @@ router.route("/update").put(validateToken, async(req, res) => {
 
 
 router.route("/update").put(validateToken, async(req, res) => {
-    // async and await waiting for the data to be inserting and doing other things
-    
-        // using sequelize to post data
-        // accessing data
-        // body has data in json
         const { username, password } = req.body;
         const updateUser = req.body;
-        // const hash = user.password
-        // User.create({
-        //     username: user.username,
-        //     password: hash
-        // })
-        // res.json(hash);
         const userId = req.user.id;
         const updated =await User.update(updateUser, { where: { id: userId } });
         res.json({status:"SUCCESS" ,message: "User updated successfully" });
@@ -118,19 +134,13 @@ router.route("/update").put(validateToken, async(req, res) => {
         });
 
 router.route("/auth").get(validateToken, (req, res) => {
-    // using sequelize to post data
-    // accessing data
-    // body has data in json
+
     const userId = req.user;
     console.log(userId);
     res.json(userId);
 });
 
 router.route("/company-profile").put(validateToken, async(req, res) => {
-    // using sequelize to post data
-    // accessing data
-    // body has data in json
-    // const user = User.findOne({ where: { username: req.user.username } });
    
     const profile = await Company.update(req.body, { where: { id: 1 } });
     res.json({status:"SUCCESS" ,message: "Company profile updated successfully" });

@@ -11,9 +11,6 @@ router.route("/").get(validateToken, async(req, res) => {
 });
 
 router.route("/").post(validateToken, async(req, res) => {
-    // using sequelize to post data
-    // accessing data
-    // body has data in json
     const categories = req.body;
     Categories.create(categories);
     res.json({status:"SUCCESS" ,message: "Categories added successfully",data:categories });
@@ -22,12 +19,7 @@ router.route("/").post(validateToken, async(req, res) => {
 
 
 
-router.route("/update").get(validateToken, async(req, res) => {
-    // async and await waiting for the data to be inserting and doing other things
-    
-        // using sequelize to post data
-        // accessing data
-        // body has data in json
+router.route("/update").put(validateToken, async(req, res) => {
         const id = req.query['id'];
         console.log(id);
         const cat = req.body;
@@ -37,7 +29,7 @@ router.route("/update").get(validateToken, async(req, res) => {
     });
 
 
-router.route("/delete").get(validateToken, async(req, res) => {
+router.route("/delete").delete(validateToken, async(req, res) => {
             const id = req.query['id'];
             console.log(id);
         

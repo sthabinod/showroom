@@ -1,13 +1,13 @@
 const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
-const { VehicleOrder,Customer } = require("../models");
+const { MaintenanceRequest,Customer } = require("../models");
 const Sequelize = require("sequelize");
 const { validateToken } = require("../middleware/AuthMiddleware");
 
 router.route("/by-user").get(validateToken,async(req,res)=>{
     const userId = req.user.id;
-    getRelatedOrder = await VehicleOrder.findAll({ where: { UserId: userId } });
+    getRelatedOrder = await MaintenanceRequest.findAll({ where: { UserId: userId } });
     res.json(getRelatedOrder);
 });
 
@@ -15,7 +15,7 @@ router.route("/by-user").get(validateToken,async(req,res)=>{
 router.route("/").get(validateToken,async(req,res)=>{
     const userId = req.user.id
 
-    const orderObject = await VehicleOrder.findAll({where:{
+    const orderObject = await MaintenanceRequest.findAll({where:{
         UserId:userId}})
 
     if (!orderObject)
@@ -31,20 +31,20 @@ router.route("/").get(validateToken,async(req,res)=>{
 
 
 router.route("/").post(validateToken,async(req,res)=>{
+    console.log(req.body)
     const order = req.body;
     console.log(order);
     const userId = req.user.id
     console.log(userId);
-    const orderToAdd = await VehicleOrder.create({
-        orderId: order.orderId,
+    const orderToAdd = await MaintenanceRequest.create({
         isBooked:order.isBooked,
         date:order.date,
-        paymentStatus:order.paymentStatus,
-        VehicleId: order.VehicleId,
-        UserId: userId
+        paymentStatus:true,
+        UserId: userId,
+        accepted:false
         });
     res.json({
-        success: "Order created successfully",data:order
+        success: "Maintenance request created successfully",data:order
     });
 
 });
@@ -54,16 +54,16 @@ router.route("/update").put(validateToken, async(req, res) => {
         const id = req.query['id'];
         console.log(id);
         const vehicle_order = req.body;
-        const updated = await VehicleOrder.update(vehicle_order, { where: { id: id } });
-        res.json({status:"SUCCESS" ,message: "Vehicle order created successfully",data:vehicle_order });
+        const updated = await MaintenanceRequest.update(vehicle_order, { where: { id: id } });
+        res.json({status:"SUCCESS" ,message: "Maintenance request updated successfully",data:vehicle_order });
     });
 
 
 router.route("/delete").delete(validateToken, async(req, res) => {
             const id = req.query['id'];
             console.log(id);    
-            const updated = await VehicleOrder.destroy({ where: { id: id } });
-            res.json({status:"SUCCESS" ,message: "Vehicle Order deleted successfully" });
+            const updated = await MaintenanceRequest.destroy({ where: { id: id } });
+            res.json({status:"SUCCESS" ,message: "Maintenance request deleted successfully" });
         });
 
 module.exports = router;

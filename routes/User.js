@@ -1,7 +1,7 @@
 const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
-const { User, Company,Contact,Vehicle,VehicleOrder,User,VehicleParts,PartsOrder } = require("../models");
+const { User, Company,Contact,Vehicle,MaintenanceRequest,VehicleParts,PartsOrder } = require("../models");
 const bcrypt = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 const { validateToken } = require("../middleware/AuthMiddleware");
@@ -25,13 +25,15 @@ router.route("/contact").get(validateToken, async (req, res) => {
 });
 
 router.route("/dashboard").get(validateToken, async (req, res) => {
+    const userId = req.user.id
     count_user =  await User.count();
-    count_vehicle =  await Vehicle.count();
-    count_vehicle_order =  await VehicleOrder.count();
-    count_parts =  await VehicleParts.count();
-    count_parts_order =  await PartsOrder.count();
+    const count_vehicle_order = await MaintenanceRequest.count({
+        where: {
+          UserId: userId, // Filter by UserId to count requests specific to the user
+        },
+      });
 
-    res.json({"user":count_user,"vehicle":count_vehicle,"vehicle_order":count_vehicle_order,"parts":count_parts,"parts_order":parts_order});
+    res.json({"user":count_user,"vehicle_order":count_vehicle_order});
 });
 
 

@@ -22,22 +22,15 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.associate = (models) => {
-        User.hasMany(models.VehicleOrder, {
+        User.hasMany(models.MaintenanceRequest, {
             onDelete: "cascade",
         });
     
-        User.hasMany(models.PartsOrder, {
-            onDelete: "cascade",
-        });
-
      
         User.hasOne(models.Customer, {
             onDelete: "cascade",
         });
 
-        User.hasMany(models.ExchangedVehicle, {
-            onDelete: "cascade",
-        });
         User.hasMany(models.Contact, {
             onDelete: "cascade",
         });

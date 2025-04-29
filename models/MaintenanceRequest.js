@@ -2,25 +2,26 @@
 
 module.exports = (sequelize, DataTypes) => {
     // // Table name as Blog in double quote and Blog as variable in front
-    const VehicleOrder = sequelize.define("VehicleOrder", {
-        orderId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-
+    const MaintenanceRequest = sequelize.define("MaintenanceRequest", {
         date: {
             type: DataTypes.DATE,
-            allowNull: false,
+            allowNull: true,
         },
         isBooked: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
+            defaultValue: true,
         },
         paymentStatus: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
+        },
+        accepted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false
         },
     });
 
-    return VehicleOrder;
+    return MaintenanceRequest;
 };

@@ -17,7 +17,7 @@ router.route("/get-customer-by-user-id").get(validateToken,async(req,res)=>{
 });
 
 
-router.route("/").post(validateToken, async(req, res) => {
+router.route("/").post(async(req, res) => {
     const customer = req.body;
     console.log(req.body);
     await Customer.create(customer);
